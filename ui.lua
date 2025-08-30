@@ -1,8 +1,32 @@
+-- ui.lua
+-- Modul UI utama dengan Luna Interface Suite
 local UIModule = {}
 UIModule.__index = UIModule
 
+-- Preset themes
+local Themes = {
+    Dark = {
+        BackgroundColor = Color3.fromRGB(25, 25, 30),
+        AccentColor = Color3.fromRGB(0, 170, 255),
+        TitleColor = Color3.fromRGB(220, 220, 220),
+    },
+    Neon = {
+        BackgroundColor = Color3.fromRGB(15, 15, 20),
+        AccentColor = Color3.fromRGB(255, 0, 150), -- pink neon
+        TitleColor = Color3.fromRGB(255, 255, 255),
+    },
+    Minimal = {
+        BackgroundColor = Color3.fromRGB(240, 240, 240),
+        AccentColor = Color3.fromRGB(60, 120, 200), -- biru clean
+        TitleColor = Color3.fromRGB(30, 30, 30),
+    }
+}
+
 function UIModule:Open(config)
     local Features = config.Features
+    local ThemeChoice = config.Theme or "Dark" -- default Dark
+
+    local Theme = Themes[ThemeChoice] or Themes.Dark
 
     -- Load Luna UI
     local Luna = loadstring(game:HttpGet("https://raw.githubusercontent.com/Nebula-Softworks/Luna-Interface-Suite/refs/heads/master/source.lua"))()
@@ -10,13 +34,17 @@ function UIModule:Open(config)
     -- Buat window utama (langsung tanpa splash screen)
     local Window = Luna:CreateWindow({
         Name = "YS Hub",
-        Icon = "rbxassetid://6022668898", -- opsional
+        Icon = "rbxassetid://6022668898",
         HidePremium = false,
 
-        -- Tambahan biar nggak ada splash
+        -- Hilangin splash
         LoadingEnabled = false, 
-        LoadingTitle = "",
-        LoadingSubtitle = "",
+
+        -- Apply theme
+        Theme = ThemeChoice,
+        BackgroundColor = Theme.BackgroundColor,
+        AccentColor = Theme.AccentColor,
+        TitleColor = Theme.TitleColor,
     })
 
     -- Tab utama
