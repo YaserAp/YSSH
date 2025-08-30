@@ -16,9 +16,10 @@ function UIModule:Open(config)
         LoadingSubtitle = "",
     })
 
+    -- TAB 1
     local TabMain = Window:CreateTab({
         Name = "Main Features",
-        Icon = "rbxassetid://6034509993"
+        Icon = "rbxassetid://6034509993" -- Gear
     })
 
     local SectionTools = TabMain:CreateSection({
@@ -39,9 +40,11 @@ function UIModule:Open(config)
         end
     })
 
+
+    -- TAB 2
     local TabMisc = Window:CreateTab({
         Name = "Misc",
-        Icon = "rbxassetid://6034509992"
+        Icon = "rbxassetid://6034509992" -- Puzzle
     })
 
     local SectionMisc = TabMisc:CreateSection({
@@ -53,6 +56,11 @@ function UIModule:Open(config)
         Callback = function()
             print("Hello from Misc tab!")
         end
+    })
+
+    -- Biar kelihatan kalau tab Misc memang muncul
+    SectionMisc:CreateLabel({
+        Name = "Misc Tab Loaded"
     })
 end
 
