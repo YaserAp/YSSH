@@ -8,7 +8,6 @@ function KeyModule:Start(callback)
     ScreenGui.Name = "KeySystemUI"
     ScreenGui.Parent = game.CoreGui
 
-    -- Main Frame
     local Frame = Instance.new("Frame", ScreenGui)
     Frame.Size = UDim2.new(0, 380, 0, 240)
     Frame.Position = UDim2.new(0.5, -190, 0.5, -120)
@@ -21,7 +20,6 @@ function KeyModule:Start(callback)
     stroke.Thickness = 2
     stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 
-    -- Gradient background
     local gradient = Instance.new("UIGradient", Frame)
     gradient.Color = ColorSequence.new{
         ColorSequenceKeypoint.new(0, Color3.fromRGB(35, 35, 55)),
@@ -29,7 +27,6 @@ function KeyModule:Start(callback)
     }
     gradient.Rotation = 90
 
-    -- Layout
     local UIList = Instance.new("UIListLayout", Frame)
     UIList.Padding = UDim.new(0, 12)
     UIList.HorizontalAlignment = Enum.HorizontalAlignment.Center
@@ -41,7 +38,6 @@ function KeyModule:Start(callback)
     UIPadding.PaddingLeft = UDim.new(0, 20)
     UIPadding.PaddingRight = UDim.new(0, 20)
 
-    -- Title
     local Title = Instance.new("TextLabel", Frame)
     Title.Text = "🔑 Key System"
     Title.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -50,7 +46,6 @@ function KeyModule:Start(callback)
     Title.BackgroundTransparency = 1
     Title.Size = UDim2.new(1, -40, 0, 40)
 
-    -- Input
     local TextBox = Instance.new("TextBox", Frame)
     TextBox.Size = UDim2.new(1, 0, 0, 40)
     TextBox.PlaceholderText = "Enter your key..."
@@ -62,7 +57,6 @@ function KeyModule:Start(callback)
     TextBox.ClearTextOnFocus = false
     Instance.new("UICorner", TextBox).CornerRadius = UDim.new(0, 8)
 
-    -- Check Key Button
     local CheckButton = Instance.new("TextButton", Frame)
     CheckButton.Size = UDim2.new(1, 0, 0, 40)
     CheckButton.Text = "✅ Check Key"
@@ -72,7 +66,6 @@ function KeyModule:Start(callback)
     CheckButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     Instance.new("UICorner", CheckButton).CornerRadius = UDim.new(0, 8)
 
-    -- Horizontal container (Get Key + Discord)
     local ButtonFrame = Instance.new("Frame", Frame)
     ButtonFrame.Size = UDim2.new(1, 0, 0, 40)
     ButtonFrame.BackgroundTransparency = 1
@@ -98,7 +91,6 @@ function KeyModule:Start(callback)
     DiscordButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     Instance.new("UICorner", DiscordButton).CornerRadius = UDim.new(0, 8)
 
-    -- Events
     GetKeyButton.MouseButton1Click:Connect(function()
         setclipboard("https://pastebin.com/raw/6G3QUYJk")
     end)
@@ -119,3 +111,4 @@ function KeyModule:Start(callback)
 end
 
 return KeyModule
+
