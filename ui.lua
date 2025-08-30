@@ -1,5 +1,3 @@
--- ui.lua
--- Modul UI utama dengan Luna Interface Suite
 local UIModule = {}
 UIModule.__index = UIModule
 
@@ -9,11 +7,16 @@ function UIModule:Open(config)
     -- Load Luna UI
     local Luna = loadstring(game:HttpGet("https://raw.githubusercontent.com/Nebula-Softworks/Luna-Interface-Suite/refs/heads/master/source.lua"))()
 
-    -- Buat window utama
+    -- Buat window utama (langsung tanpa splash screen)
     local Window = Luna:CreateWindow({
         Name = "YS Hub",
         Icon = "rbxassetid://6022668898", -- opsional
-        HidePremium = false
+        HidePremium = false,
+
+        -- Tambahan biar nggak ada splash
+        LoadingEnabled = false, 
+        LoadingTitle = "",
+        LoadingSubtitle = "",
     })
 
     -- Tab utama
@@ -21,12 +24,10 @@ function UIModule:Open(config)
         Name = "Main Features"
     })
 
-    -- Section Tools
     local SectionTools = TabMain:CreateSection({
         Name = "Tools"
     })
 
-    -- Tombol yang memanggil fitur dari features.lua
     SectionTools:CreateButton({
         Name = "Do Something",
         Callback = function()
@@ -34,7 +35,6 @@ function UIModule:Open(config)
         end
     })
 
-    -- Tombol lain contoh
     SectionTools:CreateButton({
         Name = "Another Feature",
         Callback = function()
@@ -42,7 +42,7 @@ function UIModule:Open(config)
         end
     })
 
-    -- Tab kedua contoh
+    -- Tab kedua (Misc)
     local TabMisc = Window:CreateTab({
         Name = "Misc"
     })
