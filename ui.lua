@@ -4,64 +4,56 @@ UIModule.__index = UIModule
 function UIModule:Open(config)
     local Features = config.Features
 
-    local Luna = loadstring(game:HttpGet("https://raw.githubusercontent.com/Nebula-Softworks/Luna-Interface-Suite/refs/heads/master/source.lua"))()
+    -- load Fluent
+    local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/main/Fluent.lua"))()
 
-    local Window = Luna:CreateWindow({
-        Name = "YS Hub",
-        Icon = "rbxassetid://6022668898",
-        HidePremium = false,
-
-        LoadingEnabled = false, 
-        LoadingTitle = "",
-        LoadingSubtitle = "",
+    local Window = Fluent:CreateWindow({
+        Title = "YS Hub",
+        SubTitle = "BumiAksaraTeknologi",
+        TabWidth = 160,
+        Size = UDim2.fromOffset(500, 350),
+        Acrylic = false, -- transparansi Windows 11 style
+        Theme = "Dark",  -- bisa "Dark" / "Light"
+        MinimizeKey = Enum.KeyCode.LeftControl
     })
 
     -- TAB 1
-    local TabMain = Window:CreateTab({
-        Name = "Main Features",
-        Icon = "rbxassetid://6034509993" -- Gear
-    })
+    local TabMain = Window:AddTab({ Title = "Main Features", Icon = "settings" })
 
-    local SectionTools = TabMain:CreateSection({
-        Name = "Tools"
-    })
+    local SectionTools = TabMain:AddSection("Tools")
 
-    SectionTools:CreateButton({
-        Name = "Do Something",
+    SectionTools:AddButton({
+        Title = "Do Something",
         Callback = function()
             Features.DoSomething()
         end
     })
 
-    SectionTools:CreateButton({
-        Name = "Another Feature",
+    SectionTools:AddButton({
+        Title = "Another Feature",
         Callback = function()
             Features.AnotherFeature()
         end
     })
 
-
     -- TAB 2
-    local TabMisc = Window:CreateTab({
-        Name = "Misc",
-        Icon = "rbxassetid://6034509992" -- Puzzle
-    })
+    local TabMisc = Window:AddTab({ Title = "Misc", Icon = "package" })
 
-    local SectionMisc = TabMisc:CreateSection({
-        Name = "Extra"
-    })
+    local SectionMisc = TabMisc:AddSection("Extra")
 
-    SectionMisc:CreateButton({
-        Name = "Print Hello",
+    SectionMisc:AddButton({
+        Title = "Print Hello",
         Callback = function()
             print("Hello from Misc tab!")
         end
     })
 
-    -- Biar kelihatan kalau tab Misc memang muncul
-    SectionMisc:CreateLabel({
-        Name = "Misc Tab Loaded"
+    SectionMisc:AddParagraph({
+        Title = "Info",
+        Content = "Misc Tab Loaded Successfully."
     })
+
+    Window:SelectTab(1) -- default ke tab pertama
 end
 
 return UIModule
