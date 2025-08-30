@@ -17,7 +17,8 @@ function UIModule:Open(config)
     })
 
     local TabMain = Window:CreateTab({
-        Name = "Main Features"
+        Name = "Main Features",
+        Icon = "rbxassetid://6034509993"
     })
 
     local SectionTools = TabMain:CreateSection({
@@ -39,7 +40,8 @@ function UIModule:Open(config)
     })
 
     local TabMisc = Window:CreateTab({
-        Name = "Misc"
+        Name = "Misc",
+        Icon = "rbxassetid://6034509992"
     })
 
     local SectionMisc = TabMisc:CreateSection({
