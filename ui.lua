@@ -4,56 +4,82 @@ UIModule.__index = UIModule
 function UIModule:Open(config)
     local Features = config.Features
 
-    -- load Fluent
-    local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/main/Fluent.lua"))()
+    -- Services
+    local Players = game:GetService("Players")
+    local UserInput = game:GetService("UserInputService")
+    local RunService = game:GetService("RunService")
+    local LocalPlayer = Players.LocalPlayer
 
+    -- Load Fluent (dawid) + Addons
+    local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+    local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+    local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+
+    -- Window utama
     local Window = Fluent:CreateWindow({
         Title = "YS Hub",
         SubTitle = "BumiAksaraTeknologi",
         TabWidth = 160,
         Size = UDim2.fromOffset(500, 350),
-        Acrylic = false, -- transparansi Windows 11 style
-        Theme = "Dark",  -- bisa "Dark" / "Light"
+        Acrylic = false,
+        Theme = "Dark",
         MinimizeKey = Enum.KeyCode.LeftControl
     })
 
-    -- TAB 1
-    local TabMain = Window:AddTab({ Title = "Main Features", Icon = "settings" })
+    -- Tabs
+    local Tabs = {
+        Main     = Window:AddTab({ Title = "Main Features", Icon = "settings" }),
+        Misc     = Window:AddTab({ Title = "Misc", Icon = "grid" }),
+        Settings = Window:AddTab({ Title = "Settings", Icon = "list" })
+    }
 
-    local SectionTools = TabMain:AddSection("Tools")
-
-    SectionTools:AddButton({
+    -- ===== MAIN FEATURES =====
+    Tabs.Main:AddButton({
         Title = "Do Something",
         Callback = function()
             Features.DoSomething()
         end
     })
 
-    SectionTools:AddButton({
+    Tabs.Main:AddButton({
         Title = "Another Feature",
         Callback = function()
             Features.AnotherFeature()
         end
     })
 
-    -- TAB 2
-    local TabMisc = Window:AddTab({ Title = "Misc", Icon = "package" })
+    -- ===== MISC =====
+    Tabs.Misc:AddParagraph({
+        Title = "Info",
+        Content = "Tab Misc berhasil dimuat!"
+    })
 
-    local SectionMisc = TabMisc:AddSection("Extra")
-
-    SectionMisc:AddButton({
+    Tabs.Misc:AddButton({
         Title = "Print Hello",
         Callback = function()
             print("Hello from Misc tab!")
         end
     })
 
-    SectionMisc:AddParagraph({
-        Title = "Info",
-        Content = "Misc Tab Loaded Successfully."
-    })
+    -- ===== SETTINGS (addon manager) =====
+    SaveManager:SetLibrary(Fluent)
+    InterfaceManager:SetLibrary(Fluent)
 
-    Window:SelectTab(1) -- default ke tab pertama
+    SaveManager:IgnoreThemeSettings()
+    SaveManager:SetIgnoreIndexes({})
+    InterfaceManager:SetFolder("YS Hub")
+    SaveManager:SetFolder("YS Hub/Configs")
+
+    InterfaceManager:BuildInterfaceSection(Tabs.Settings)
+    SaveManager:BuildConfigSection(Tabs.Settings)
+    SaveManager:LoadAutoloadConfig()
+
+    -- kasih notifikasi kalau berhasil load
+    Fluent:Notify({
+        Title = "YS Hub",
+        Content = "UI berhasil dimuat dengan Fluent!",
+        Duration = 5
+    })
 end
 
 return UIModule
