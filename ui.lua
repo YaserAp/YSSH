@@ -20,7 +20,7 @@ function UIModule:Open(config)
         Title = "YS Hub",
         SubTitle = "BumiAksaraTeknologi",
         TabWidth = 160,
-        Size = UDim2.fromOffset(500, 350),
+        Size = UDim2.fromOffset(480, 315),
         Acrylic = false,
         Theme = "Dark",
         MinimizeKey = Enum.KeyCode.LeftControl
@@ -83,3 +83,4 @@ function UIModule:Open(config)
 end
 
 return UIModule
+
