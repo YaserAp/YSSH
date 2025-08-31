@@ -28,26 +28,38 @@ function UIModule:Open(config)
 
     -- Tabs
     local Tabs = {
-        Info        = Window:AddTab({ Title = "Info", Icon = "info" }),
-        AutoFishing = Window:AddTab({ Title = "Auto Fishing", Icon = "fish" }),
-        Teleport    = Window:AddTab({ Title = "Teleport", Icon = "map" }),
-        SpawnBoat   = Window:AddTab({ Title = "Spawn Boat", Icon = "anchor" }),
-        Shop        = Window:AddTab({ Title = "Shop", Icon = "shopping-cart" }),
-        User        = Window:AddTab({ Title = "User", Icon = "user" }),
-        Settings    = Window:AddTab({ Title = "Settings", Icon = "settings" }),
+        Main     = Window:AddTab({ Title = "Main Features", Icon = "settings" }),
+        Misc     = Window:AddTab({ Title = "Misc", Icon = "grid" }),
+        Settings = Window:AddTab({ Title = "Settings", Icon = "list" })
     }
 
-    -- ===== contoh konten sementara tiap tab =====
-    Tabs.Info:AddParagraph({
-        Title = "YS Hub Info",
-        Content = "Welcome to YS Hub!\nFitur masih dalam pengembangan."
+    -- ===== MAIN FEATURES =====
+    Tabs.Main:AddButton({
+        Title = "Do Something",
+        Callback = function()
+            Features.DoSomething()
+        end
     })
 
-    Tabs.AutoFishing:AddLabel("Fitur Auto Fishing bakal ada di sini...")
-    Tabs.Teleport:AddLabel("Fitur Teleport bakal ada di sini...")
-    Tabs.SpawnBoat:AddLabel("Fitur Spawn Boat bakal ada di sini...")
-    Tabs.Shop:AddLabel("Fitur Shop bakal ada di sini...")
-    Tabs.User:AddLabel("Fitur User bakal ada di sini...")
+    Tabs.Main:AddButton({
+        Title = "Another Feature",
+        Callback = function()
+            Features.AnotherFeature()
+        end
+    })
+
+    -- ===== MISC =====
+    Tabs.Misc:AddParagraph({
+        Title = "Info",
+        Content = "Tab Misc berhasil dimuat!"
+    })
+
+    Tabs.Misc:AddButton({
+        Title = "Print Hello",
+        Callback = function()
+            print("Hello from Misc tab!")
+        end
+    })
 
     -- ===== SETTINGS (addon manager) =====
     SaveManager:SetLibrary(Fluent)
@@ -58,24 +70,8 @@ function UIModule:Open(config)
     InterfaceManager:SetFolder("YS Hub")
     SaveManager:SetFolder("YS Hub/Configs")
 
-    -- inject setting bawaan Fluent
     InterfaceManager:BuildInterfaceSection(Tabs.Settings)
     SaveManager:BuildConfigSection(Tabs.Settings)
-
-    -- custom tambahan di tab Settings
-    Tabs.Settings:AddLabel("Custom Pengaturan Tambahan:")
-    Tabs.Settings:AddButton({
-        Title = "Reset Config",
-        Callback = function()
-            SaveManager:LoadAutoloadConfig()
-            Fluent:Notify({
-                Title = "YS Hub",
-                Content = "Config berhasil di-reset!",
-                Duration = 5
-            })
-        end
-    })
-
     SaveManager:LoadAutoloadConfig()
 
     -- kasih notifikasi kalau berhasil load
@@ -87,3 +83,4 @@ function UIModule:Open(config)
 end
 
 return UIModule
+
