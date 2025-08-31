@@ -26,21 +26,39 @@ function UIModule:Open(config)
 
     -- Tabs
     local Tabs = {
-        Info        = Window:AddTab({ Title = "Info", Icon = "info" }),
-        AutoFishing = Window:AddTab({ Title = "Auto Fishing", Icon = "fish" }),
-        Teleport    = Window:AddTab({ Title = "Teleport", Icon = "map" }),
-        SpawnBoat   = Window:AddTab({ Title = "Spawn Boat", Icon = "anchor" }),
-        Shop        = Window:AddTab({ Title = "Shop", Icon = "shopping-cart" }),
-        User        = Window:AddTab({ Title = "User", Icon = "user" }),
-        Settings    = Window:AddTab({ Title = "Settings", Icon = "settings" }), -- WAJIB ada, jangan rename
+        AutoFarm = Window:AddTab({ Title = "Auto Farm", Icon = "sword" }),
+        Shop     = Window:AddTab({ Title = "Shop", Icon = "shopping-cart" }),
+        User     = Window:AddTab({ Title = "User", Icon = "user" }),
+        Settings = Window:AddTab({ Title = "Settings", Icon = "list" }) -- WAJIB ADA
     }
 
-    -- ===== MAIN FEATURES (placeholder) =====
-    Tabs.AutoFishing:AddLabel("Fitur Auto Fishing bakal ada di sini...")
-    Tabs.Teleport:AddLabel("Fitur Teleport bakal ada di sini...")
-    Tabs.SpawnBoat:AddLabel("Fitur Spawn Boat bakal ada di sini...")
-    Tabs.Shop:AddLabel("Fitur Shop bakal ada di sini...")
-    Tabs.User:AddLabel("Fitur User bakal ada di sini...")
+    -- ===== AUTO FARM =====
+    Tabs.AutoFarm:AddButton({
+        Title = "Start Fishing",
+        Callback = function()
+            Features.StartFishing()
+        end
+    })
+
+    -- ===== SHOP =====
+    Tabs.Shop:AddParagraph({
+        Title = "Info",
+        Content = "Belanja fitur test."
+    })
+    Tabs.Shop:AddButton({
+        Title = "Buy Rod Upgrade",
+        Callback = function()
+            Features.BuyRod()
+        end
+    })
+
+    -- ===== USER =====
+    Tabs.User:AddButton({
+        Title = "Print Player Name",
+        Callback = function()
+            print("LocalPlayer: ", LocalPlayer.Name)
+        end
+    })
 
     -- ===== SETTINGS (addon manager) =====
     SaveManager:SetLibrary(Fluent)
@@ -51,14 +69,14 @@ function UIModule:Open(config)
     InterfaceManager:SetFolder("YS Hub")
     SaveManager:SetFolder("YS Hub/Configs")
 
-    -- PENTING: delay biar tab Settings kebentuk dulu
+    -- pakai defer biar kebaca setelah render
     task.defer(function()
         InterfaceManager:BuildInterfaceSection(Tabs.Settings)
         SaveManager:BuildConfigSection(Tabs.Settings)
         SaveManager:LoadAutoloadConfig()
     end)
 
-    -- Notifikasi sukses
+    -- kasih notifikasi kalau berhasil load
     Fluent:Notify({
         Title = "YS Hub",
         Content = "UI berhasil dimuat dengan Fluent!",
