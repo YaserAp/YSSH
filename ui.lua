@@ -6,6 +6,8 @@ function UIModule:Open(config)
 
     -- Services
     local Players = game:GetService("Players")
+    local UserInput = game:GetService("UserInputService")
+    local RunService = game:GetService("RunService")
     local LocalPlayer = Players.LocalPlayer
 
     -- Load Fluent (dawid) + Addons
@@ -24,7 +26,7 @@ function UIModule:Open(config)
         MinimizeKey = Enum.KeyCode.LeftControl
     })
 
-    -- Tabs
+     -- Tabs
     local Tabs = {
         Info        = Window:AddTab({ Title = "Info", Icon = "info" }),
         AutoFishing = Window:AddTab({ Title = "Auto Fishing", Icon = "fish" }),
@@ -35,8 +37,8 @@ function UIModule:Open(config)
         Settings    = Window:AddTab({ Title = "Settings", Icon = "settings" }),
     }
 
-    -- ===== SAMPLE FEATURES =====
-    Tabs.AutoFishing:AddLabel("Fitur Auto Fishing bakal ada di sini...")
+    -- ===== MAIN FEATURES =====
+     Tabs.AutoFishing:AddLabel("Fitur Auto Fishing bakal ada di sini...")
     Tabs.Teleport:AddLabel("Fitur Teleport bakal ada di sini...")
     Tabs.SpawnBoat:AddLabel("Fitur Spawn Boat bakal ada di sini...")
     Tabs.Shop:AddLabel("Fitur Shop bakal ada di sini...")
@@ -51,26 +53,9 @@ function UIModule:Open(config)
     InterfaceManager:SetFolder("YS Hub")
     SaveManager:SetFolder("YS Hub/Configs")
 
-    -- inject isi bawaan Fluent ke tab Settings
-    task.defer(function()
-        InterfaceManager:BuildInterfaceSection(Tabs.Settings)
-        SaveManager:BuildConfigSection(Tabs.Settings)
-        SaveManager:LoadAutoloadConfig()
-    end)
-
-    -- contoh custom tambahan di tab Settings
-    Tabs.Settings:AddParagraph({
-        Title = "Custom Settings",
-        Content = "Tambahan pengaturan khusus YS Hub."
-    })
-
-    Tabs.Settings:AddToggle("custom_toggle", {
-        Title = "Contoh Toggle",
-        Default = false,
-        Callback = function(state)
-            print("Custom toggle sekarang:", state)
-        end
-    })
+    InterfaceManager:BuildInterfaceSection(Tabs.Settings)
+    SaveManager:BuildConfigSection(Tabs.Settings)
+    SaveManager:LoadAutoloadConfig()
 
     -- kasih notifikasi kalau berhasil load
     Fluent:Notify({
@@ -81,3 +66,4 @@ function UIModule:Open(config)
 end
 
 return UIModule
+
