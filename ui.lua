@@ -26,41 +26,57 @@ function UIModule:Open(config)
 
     -- Tabs
     local Tabs = {
-        AutoFarm = Window:AddTab({ Title = "Auto Farm", Icon = "sword" }),
-        Shop     = Window:AddTab({ Title = "Shop", Icon = "shopping-cart" }),
-        User     = Window:AddTab({ Title = "User", Icon = "user" }),
-        Settings = Window:AddTab({ Title = "Settings", Icon = "list" }) -- WAJIB ADA
+        Info        = Window:AddTab({ Title = "Info", Icon = "info" }),
+        AutoFishing = Window:AddTab({ Title = "Auto Fishing", Icon = "settings" }),
+        Teleport    = Window:AddTab({ Title = "Teleport", Icon = "map" }),
+        SpawnBoat   = Window:AddTab({ Title = "Spawn Boat", Icon = "anchor" }),
+        Shop        = Window:AddTab({ Title = "Shop", Icon = "shopping-cart" }),
+        User        = Window:AddTab({ Title = "User", Icon = "user" }),
+        Settings    = Window:AddTab({ Title = "Settings", Icon = "list" }),
     }
 
-    -- ===== AUTO FARM =====
-    Tabs.AutoFarm:AddButton({
-        Title = "Start Fishing",
+    -- ===== Contoh isi tiap tab =====
+    Tabs.Info:AddParagraph({
+        Title = "Welcome",
+        Content = "YS Hub berhasil dimuat!"
+    })
+
+    Tabs.AutoFishing:AddButton({
+        Title = "Start Auto Fishing",
         Callback = function()
-            Features.StartFishing()
+            Features.AutoFishing()
         end
     })
 
-    -- ===== SHOP =====
-    Tabs.Shop:AddParagraph({
-        Title = "Info",
-        Content = "Belanja fitur test."
+    Tabs.Teleport:AddButton({
+        Title = "Teleport ke Spawn",
+        Callback = function()
+            Features.TeleportToSpawn()
+        end
     })
+
+    Tabs.SpawnBoat:AddButton({
+        Title = "Spawn Perahu",
+        Callback = function()
+            Features.SpawnBoat()
+        end
+    })
+
     Tabs.Shop:AddButton({
-        Title = "Buy Rod Upgrade",
+        Title = "Buka Shop",
         Callback = function()
-            Features.BuyRod()
+            Features.OpenShop()
         end
     })
 
-    -- ===== USER =====
     Tabs.User:AddButton({
-        Title = "Print Player Name",
+        Title = "Profile",
         Callback = function()
-            print("LocalPlayer: ", LocalPlayer.Name)
+            Features.UserProfile()
         end
     })
 
-    -- ===== SETTINGS (addon manager) =====
+    -- ===== SETTINGS (addon bawaan) =====
     SaveManager:SetLibrary(Fluent)
     InterfaceManager:SetLibrary(Fluent)
 
@@ -69,14 +85,14 @@ function UIModule:Open(config)
     InterfaceManager:SetFolder("YS Hub")
     SaveManager:SetFolder("YS Hub/Configs")
 
-    -- pakai defer biar kebaca setelah render
+    -- biar pasti kebaca
     task.defer(function()
         InterfaceManager:BuildInterfaceSection(Tabs.Settings)
         SaveManager:BuildConfigSection(Tabs.Settings)
         SaveManager:LoadAutoloadConfig()
     end)
 
-    -- kasih notifikasi kalau berhasil load
+    -- Notif
     Fluent:Notify({
         Title = "YS Hub",
         Content = "UI berhasil dimuat dengan Fluent!",
