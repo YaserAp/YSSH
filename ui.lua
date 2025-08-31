@@ -24,7 +24,7 @@ function UIModule:Open(config)
         MinimizeKey = Enum.KeyCode.LeftControl
     })
 
-    -- Tabs custom lo
+    -- Tabs
     local Tabs = {
         Info        = Window:AddTab({ Title = "Info", Icon = "info" }),
         AutoFishing = Window:AddTab({ Title = "Auto Fishing", Icon = "fish" }),
@@ -32,44 +32,33 @@ function UIModule:Open(config)
         SpawnBoat   = Window:AddTab({ Title = "Spawn Boat", Icon = "anchor" }),
         Shop        = Window:AddTab({ Title = "Shop", Icon = "shopping-cart" }),
         User        = Window:AddTab({ Title = "User", Icon = "user" }),
-        Settings    = Window:AddTab({ Title = "Settings", Icon = "settings" }),
+        Settings    = Window:AddTab({ Title = "Settings", Icon = "settings" }), -- WAJIB ada, jangan rename
     }
 
-    -- ===== Contoh isi tiap tab =====
-    Tabs.Info:AddParagraph({
-        Title = "YS Hub Info",
-        Content = "Welcome to YS Hub!\nSemua fitur masih dalam pengembangan."
-    })
+    -- ===== MAIN FEATURES (placeholder) =====
     Tabs.AutoFishing:AddLabel("Fitur Auto Fishing bakal ada di sini...")
     Tabs.Teleport:AddLabel("Fitur Teleport bakal ada di sini...")
     Tabs.SpawnBoat:AddLabel("Fitur Spawn Boat bakal ada di sini...")
     Tabs.Shop:AddLabel("Fitur Shop bakal ada di sini...")
     Tabs.User:AddLabel("Fitur User bakal ada di sini...")
 
-    -- ===== SETTINGS (Fluent bawaan) =====
+    -- ===== SETTINGS (addon manager) =====
     SaveManager:SetLibrary(Fluent)
     InterfaceManager:SetLibrary(Fluent)
 
     SaveManager:IgnoreThemeSettings()
     SaveManager:SetIgnoreIndexes({})
-
     InterfaceManager:SetFolder("YS Hub")
     SaveManager:SetFolder("YS Hub/Configs")
 
-    InterfaceManager:BuildInterfaceSection(Tabs.Settings)
-    SaveManager:BuildConfigSection(Tabs.Settings)
+    -- PENTING: delay biar tab Settings kebentuk dulu
+    task.defer(function()
+        InterfaceManager:BuildInterfaceSection(Tabs.Settings)
+        SaveManager:BuildConfigSection(Tabs.Settings)
+        SaveManager:LoadAutoloadConfig()
+    end)
 
-    -- 🔑 Fix utama: paksa bikin config default biar tab Settings ga kosong
-    if not isfolder("YS Hub/Configs") then
-        makefolder("YS Hub/Configs")
-    end
-    if not isfile("YS Hub/Configs/Default.json") then
-        SaveManager:Save("Default")
-    end
-
-    SaveManager:LoadAutoloadConfig()
-
-    -- Notifikasi berhasil load
+    -- Notifikasi sukses
     Fluent:Notify({
         Title = "YS Hub",
         Content = "UI berhasil dimuat dengan Fluent!",
